@@ -11,10 +11,18 @@ app.listen(5000,()=> console.log('server on port 5000'));
 app.get('/',(req,resp)=> resp.send('node with Express'));
 
 // Get Productos
-app.get('/productos',(req,resp)=>{
+app.get('/products',(req,resp)=>{
     const prod = require('./data/MOCK_DATA.json')
     return resp.json(prod);
 });
+
+// Get Products By Id
+app.get("/products/:id", (req, res) => {
+    const id = req.params.id
+    const filterProducts = products.filter(item => item.id == id)
+    if (filterProducts.length == 0) return res.status(204).json(filterProducts)
+    res.status(200).json(filterProducts)
+})
 
 // Post Add
 app.post("/products/add", (req, res) => {
